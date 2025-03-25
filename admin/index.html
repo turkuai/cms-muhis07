@@ -4,7 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etusivu</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../index.css">
+    <script>
+        let EditingTitleMode = false
+        function TitleHandlingEdit(){
+            console.log("TitleHandlingEdit", EditingTitleMode)
+            EditingTitleMode = !EditingTitleMode
+            console.log("after change", EditingTitleMode)
+
+            const HeadingElement = document.getElementById("title")
+            const inputElement =  document.getElementById("titleinput")
+            if(!EditingTitleMode){
+                const title = inputElement.value
+                HeadingElement.innerHTML = title
+                localStorage.setItem("title", title)
+            }
+    
+            HeadingElement.hidden = EditingTitleMode
+            inputElement.hidden = !EditingTitleMode
+            document.getElementById("titlebutton").innerHTML = EditingTitleMode ? "save" : "edit"
+
+            
+
+
+        }
+        function handleload(){
+            const title = localStorage.getItem("title")
+            document.getElementById("title").innerHTML = title
+            document.getElementById("titleinput").value = title
+        }
+        addEventListener("load", handleload)
+    </script>
 </head>
 <body>
 
@@ -35,7 +65,12 @@
 </main>
 
 <footer>
-    <p>&copy; 2025 Yritys Nimi</p>
+    <div class="titlee">
+    <h2 ID="title"></h2>
+    <input id="titleinput" hidden>
+    <button id="titlebutton"onclick="TitleHandlingEdit()">edit</button>
+    </div>
+
     <div>
         <a href="#">Facebook</a>
         <a href="#">Instagram</a>
