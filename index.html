@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etusivu</title>
     <link rel="stylesheet" href="index.css">
+    <script>
+
+        function handleload(){
+            const title = localStorage.getItem("title")
+            document.getElementById("title").innerHTML = title
+        }
+        addEventListener("load", handleload)
+    </script>
 </head>
 <body>
 
@@ -35,7 +43,11 @@
 </main>
 
 <footer>
-    <p>&copy; 2025 Yritys Nimi</p>
+    <div class="titlee">
+    <h2 ID="title"></h2>
+
+    </div>
+
     <div>
         <a href="#">Facebook</a>
         <a href="#">Instagram</a>

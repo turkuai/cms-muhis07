@@ -34,6 +34,46 @@
             document.getElementById("titleinput").value = title
         }
         addEventListener("load", handleload)
+
+
+        function addlink(e){
+
+
+            const button = e.target
+            const editmode = button.innerHTML == "+"
+            const inputhidden = !editmode
+             
+            const linknimi = document.getElementById("linknimi")
+            const linkfile = document.getElementById("linkfile")
+            
+            linknimi.hidden = inputhidden
+            linkfile.hidden = inputhidden
+
+
+
+            if(editmode)   {
+                button.innerHTML = "save"
+            } else{
+                button.innerHTML = "+"
+
+
+                const listElement = document.getElementById("link-list")
+                const aElement = document.createElement("a")
+ 
+
+                aElement.innerHTML = linkname.value
+                aElement.href = linkfile.value
+                
+                listElement.appendChild(aElement)
+                   
+            }
+            
+            
+            
+
+
+
+        }
     </script>
 </head>
 <body>
@@ -70,15 +110,23 @@
     <input id="titleinput" hidden>
     <button id="titlebutton"onclick="TitleHandlingEdit()">edit</button>
     </div>
+<p id="peratext">&copy; moha oikeudet kuuluu yrityksel</p>
 
+
+<div id="link-list" class="vertical-container">
+
+</div>
+        
+<div class="vertical-container">
     <div>
-        <a href="#">Facebook</a>
-        <a href="#">Instagram</a>
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">YouTube</a>
-        <a href="#">TikTok</a>
+        <input id="linknimi" placeholder="nimi" hidden>
+        <input id="linkfile" placeholder="url" hidden>
     </div>
+
+    <button onclick="addlink(event)">+</button>
+</div>
+
+   
 </footer>
 
 </body>
