@@ -6,10 +6,28 @@
     <title>Etusivu</title>
     <link rel="stylesheet" href="index.css">
     <script>
-
-        function handleload(){
+        const savedlinks = localStorage.getItem("link-list")
+        
+        const linklist = savedlinks ? JSON.parse(savedlinks) : []
+function handleload(){
             const title = localStorage.getItem("title")
             document.getElementById("title").innerHTML = title
+         
+
+
+            const listElement = document.getElementById("link-list")
+            
+
+            linklist.forEach(linkJson => {
+                            
+                const aElement = document.createElement("a")
+                aElement.innerHTML = linkJson.name
+                aElement.href = linkJson.href
+                
+                listElement.appendChild(aElement)
+            });
+
+
         }
         addEventListener("load", handleload)
     </script>
@@ -48,13 +66,9 @@
 
     </div>
 
-    <div>
-        <a href="#">Facebook</a>
-        <a href="#">Instagram</a>
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">YouTube</a>
-        <a href="#">TikTok</a>
+
+    <div id="link-list" class="vertical-container">
+
     </div>
 </footer>
 
