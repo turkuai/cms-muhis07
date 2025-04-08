@@ -28,10 +28,30 @@
 
 
         }
+
+        const savedlinks = localStorage.getItem("link-list")
+        
+        const linklist = savedlinks ? JSON.parse(savedlinks) : []
+
         function handleload(){
             const title = localStorage.getItem("title")
             document.getElementById("title").innerHTML = title
             document.getElementById("titleinput").value = title
+
+
+            const listElement = document.getElementById("link-list")
+            
+
+            linklist.forEach(linkJson => {
+                            
+                const aElement = document.createElement("a")
+                aElement.innerHTML = linkJson.name
+                aElement.href = linkJson.href
+                
+                listElement.appendChild(aElement)
+            });
+
+
         }
         addEventListener("load", handleload)
 
@@ -61,11 +81,20 @@
                 const aElement = document.createElement("a")
  
 
-                aElement.innerHTML = linkname.value
+                aElement.innerHTML = linknimi.value
                 aElement.href = linkfile.value
                 
                 listElement.appendChild(aElement)
-                   
+
+                const linkJson = {
+                    href: linkfile.value,
+                    name: linknimi.value,
+
+                }
+
+                linklist.push(linkJson)
+
+                localStorage.setItem("link-list", JSON.stringify(linklist))
             }
             
             
