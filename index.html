@@ -9,13 +9,20 @@
         const savedlinks = localStorage.getItem("link-list")
         
         const linklist = savedlinks ? JSON.parse(savedlinks) : []
-function handleload(){
+        
+        const savedtext = localStorage.getItem("texti")
+
+        const textlist = savedtext ? JSON.parse(savedtext) : []
+        
+        function handleload(){
             const title = localStorage.getItem("title")
             document.getElementById("title").innerHTML = title
          
 
 
             const listElement = document.getElementById("link-list")
+
+            const textElement = document.getElementById("texti")
             
 
             linklist.forEach(linkJson => {
@@ -27,7 +34,18 @@ function handleload(){
                 listElement.appendChild(aElement)
             });
 
+            textlist.forEach(textJson => {
 
+            const hElement = document.createElement("h1")
+            const pElement = document.createElement("p")
+
+
+            hElement.innerHTML = textJson.title
+            pElement.innerHTML = textJson.text
+
+            textElement.appendChild(hElement)
+            textElement.appendChild(pElement)
+            });
         }
         addEventListener("load", handleload)
     </script>
@@ -46,17 +64,11 @@ function handleload(){
 </header>
 
 <main>   
-    <h2>Artikkeli 1 :</h2>
-    <div class="article">
-     
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum.</p>
-        <img src="https://th.bing.com/th/id/OIP.0TkaWa-sBLuad-XyT2GrewHaE7?w=269&h=180&c=7&r=0&o=5&pid=1.7" alt="Artikkeli 1 kuva">
-    </div>
-        <h2>Artikkeli 2 :</h2>
-    <div class="article">
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque magna nec augue feugiat, eget maximus metus bibendum.</p> </br>
-        <img src="https://th.bing.com/th/id/OIP.aHpXhCq2iLjtoTHtRIeyXgHaLH?w=119&h=180&c=7&r=0&o=5&pid=1.7" alt="Artikkeli 2 kuva">
+    <div id="texti" class="vertical-container">
+
+         
+            
     </div>
 </main>
 
