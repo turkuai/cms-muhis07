@@ -1,3 +1,14 @@
+<?php
+
+
+
+
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="fi">
 
@@ -18,6 +29,8 @@
             if (!EditingTitleMode) {
                 const title = inputElement.value
                 HeadingElement.innerHTML = title
+
+                
                 localStorage.setItem("title", title)
             }
 
@@ -123,6 +136,8 @@
                 linklist.push(linkJson)
 
                 localStorage.setItem("link-list", JSON.stringify(linklist))
+
+          
             }
 
 
@@ -205,9 +220,29 @@
 
     <footer>
         <div class="titlee">
-            <h2 ID="title"></h2>
-            <input id="titleinput" hidden>
-            <button id="titlebutton" onclick="TitleHandlingEdit()">edit</button>
+            <h2 ID="title">
+                <?php 
+
+                    // Save to file
+                    if ($_GET["type"] == "footer") {
+                        $_GET["title"]
+                    }
+
+                    
+
+                    // Read from file
+
+                ?>
+            </h2>
+            
+            <form method="post">
+
+                <input name="type" value="footer" hidden>
+                <input id="titleinput" name="title" hidden>
+                <button id="titlebutton" onclick="TitleHandlingEdit()">edit</button>
+
+            </form>
+
         </div>
         <p id="peratext">&copy; moha oikeudet kuuluu yrityksel</p>
 
