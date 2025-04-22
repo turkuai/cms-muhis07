@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etusivu</title>
+    <link rel="stylesheet" href="../index.css">
+    <script>
+        let EditingTitleMode = false
+        function TitleHandlingEdit() {
+            console.log("TitleHandlingEdit", EditingTitleMode)
+            EditingTitleMode = !EditingTitleMode
+            console.log("after change", EditingTitleMode)
+
+            const HeadingElement = document.getElementById("title")
+            const inputElement = document.getElementById("titleinput")
+            if (!EditingTitleMode) {
+                const title = inputElement.value
+                HeadingElement.innerHTML = title
+                localStorage.setItem("title", title)
+            }
+
+            HeadingElement.hidden = EditingTitleMode
+            inputElement.hidden = !EditingTitleMode
+            document.getElementById("titlebutton").innerHTML = EditingTitleMode ? "save" : "edit"
+
+
+
+
+        }
+
+        const savedlinks = localStorage.getItem("link-list")
+
+        const linklist = savedlinks ? JSON.parse(savedlinks) : []
+
+
+        const savedtext = localStorage.getItem("texti")
+
+        const textlist = savedtext ? JSON.parse(savedtext) : []
+
+
+
+
+
+        function handleload() {
+            const title = localStorage.getItem("title")
+            document.getElementById("title").innerHTML = title
+            document.getElementById("titleinput").value = title
+
+
+            const listElement = document.getElementById("link-list")
+
+            const textElement = document.getElementById("texti")
+
+
+            linklist.forEach(linkJson => {
+
+                const aElement = document.createElement("a")
+                aElement.innerHTML = linkJson.name
+                aElement.href = linkJson.href
+
+                listElement.appendChild(aElement)
+
+
+            });
+
+            textlist.forEach(textJson => {
+
+                const hElement = document.createElement("h1")
+                const pElement = document.createElement("p")
+
+
+                hElement.innerHTML = textJson.title
+                pElement.innerHTML = textJson.text
+
+                textElement.appendChild(hElement)
+                textElement.appendChild(pElement)
+            });
+
+
+
+        }
+        addEventListener("load", handleload)
+
+
+        function addlink(e) {
+
+
+            const button = e.target
+            const editmode = button.innerHTML == "+"
+            const inputhidden = !editmode
+
+            const linknimi = document.getElementById("linknimi")
+            const linkfile = document.getElementById("linkfile")
+
+            linknimi.hidden = inputhidden
+            linkfile.hidden = inputhidden
+
+
+
+            if (editmode) {
+                button.innerHTML = "save"
+            } else {
+                button.innerHTML = "+"
+
+
+                const listElement = document.getElementById("link-list")
+                const aElement = document.createElement("a")
+
+
+                aElement.innerHTML = linknimi.value
+                aElement.href = linkfile.value
+
+                listElement.appendChild(aElement)
+
+                const linkJson = {
+                    href: linkfile.value,
+                    name: linknimi.value,
+
+                }
+
+                linklist.push(linkJson)
+
+                localStorage.setItem("link-list", JSON.stringify(linklist))
+            }
+
+
+
+
+
+
+        }
+        function create_text(e) {
+            const button = e.target
+            const editmode = button.innerHTML == "add"
+            const inputhidden = !editmode
+
+            const textarea = document.getElementById('myTextarea');
+            const texttitle = document.getElementById('texttitle');
+
+            texttitle.hidden = inputhidden;
+            textarea.hidden = inputhidden;
+
+            if (editmode) {
+                button.innerHTML = "save"
+            } else {
+                button.innerHTML = "add"
+                const textElement = document.getElementById("texti")
+                const hElement = document.createElement("h1")
+                const pElement = document.createElement("p")
+
+
+                hElement.innerHTML = texttitle.value
+                pElement.innerHTML = textarea.value
+
+                textElement.appendChild(hElement)
+
+                textElement.appendChild(pElement)
+
+                const textJson = {
+                    title: texttitle.value,
+                    text: textarea.value,
+
+                }
+
+
+                textlist.push(textJson)
+
+                localStorage.setItem("texti", JSON.stringify(textlist))
+
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div>
+            <img src="https://abundberry.com/wp-content/uploads/2023/02/mango-5.webp" alt="Logo">
+        </div>
+        <nav>
+            <a href="#">Linkki 1</a>
+            <a href="#">Linkki 2</a>
+            <a href="#">Linkki 3</a>
+        </nav>
+    </header>
+
+    <main>
+
+
+        <div id="texti" class="vertical-container">
+
+         
+            
+        </div>
+        <input id="texttitle" placeholder="title" hidden>
+        <br>
+        <textarea id="myTextarea" placeholder="texti" hidden></textarea>
+        <button onclick="create_text(event)">add</button>
+
+    </main>
+
+    <footer>
+        <div class="titlee">
+            <h2 ID="title"></h2>
+            <input id="titleinput" hidden>
+            <button id="titlebutton" onclick="TitleHandlingEdit()">edit</button>
+        </div>
+        <p id="peratext">&copy; moha oikeudet kuuluu yrityksel</p>
+
+
+        <div id="link-list" class="vertical-container">
+
+        </div>
+
+        <div class="vertical-container">
+            <div>
+                <input id="linknimi" placeholder="nimi" hidden>
+                <input id="linkfile" placeholder="url" hidden>
+            </div>
+
+            <button onclick="addlink(event)">+</button>
+        </div>
+
+
+    </footer>
+
+</body>
+
+</html>
