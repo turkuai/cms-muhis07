@@ -38,9 +38,7 @@
                 const title = inputElement.value
                 HeadingElement.innerHTML = title
 
-
-
-                fetch('api/title', {
+                fetch('api/title/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title }),
@@ -75,7 +73,9 @@
                 fetch('api/texts'),
             ]);
 
-            const title = await titleRes.text();
+            const titleJson = await titleRes.json()
+            const title = titleJson.title
+
             const linklist = await linksRes.json();
             const textlist = await textsRes.json();
 
@@ -135,7 +135,7 @@
 
                 listElement.appendChild(aElement)
 
-                await fetch('api/links', {
+                 fetch('api/links', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: linknimi.value, href: linkfile.value }),
@@ -176,7 +176,7 @@
 
                 textElement.appendChild(pElement)
 
-                await fetch('api/texts', {
+                 fetch('api/texts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title: texttitle.value, text: textarea.value }),

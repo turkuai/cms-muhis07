@@ -2,7 +2,7 @@
 // title.php
 header('Content-Type: application/json');
 
-$filePath = __DIR__ . '/../data/title.json';
+$filePath = __DIR__ . '/../../data/title.json';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Read the title from the file

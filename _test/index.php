@@ -14,37 +14,39 @@
 
         const textlist = savedtext ? JSON.parse(savedtext) : []
         
-        function handleload(){
-            const title = localStorage.getItem("title")
-            document.getElementById("title").innerHTML = title
-         
+        async function handleload() {
+            const [titleRes, linksRes, textsRes] = await Promise.all([
+                fetch('admin/api/title'),
+                fetch('admin/api/links'),
+                fetch('admin/api/texts'),
+            ]);
 
+            const titleJson = await titleRes.json()
+            const title = titleJson.title
 
-            const listElement = document.getElementById("link-list")
+            const linklist = await linksRes.json();
+            const textlist = await textsRes.json();
 
-            const textElement = document.getElementById("texti")
-            
+            document.getElementById("title").innerHTML = title;
+            document.getElementById("titleinput").value = title;
+
+            const listElement = document.getElementById("link-list");
+            const textElement = document.getElementById("texti");
 
             linklist.forEach(linkJson => {
-                            
-                const aElement = document.createElement("a")
-                aElement.innerHTML = linkJson.name
-                aElement.href = linkJson.href
-                
-                listElement.appendChild(aElement)
+                const aElement = document.createElement("a");
+                aElement.innerHTML = linkJson.name;
+                aElement.href = linkJson.href;
+                listElement.appendChild(aElement);
             });
 
             textlist.forEach(textJson => {
-
-            const hElement = document.createElement("h1")
-            const pElement = document.createElement("p")
-
-
-            hElement.innerHTML = textJson.title
-            pElement.innerHTML = textJson.text
-
-            textElement.appendChild(hElement)
-            textElement.appendChild(pElement)
+                const hElement = document.createElement("h1");
+                const pElement = document.createElement("p");
+                hElement.innerHTML = textJson.title;
+                pElement.innerHTML = textJson.text;
+                textElement.appendChild(hElement);
+                textElement.appendChild(pElement);
             });
         }
         addEventListener("load", handleload)

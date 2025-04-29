@@ -2,7 +2,7 @@
 // text.php
 header('Content-Type: application/json');
 
-$filePath = __DIR__ . '/../data/texts.json';
+$filePath = __DIR__ . '/../../data/title.json';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Get all texts
