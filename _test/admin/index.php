@@ -68,51 +68,40 @@
 
 
 
-
         async function handleload() {
-            const [titleRes] = await Promise.all([
+            const [titleRes, linksRes, textsRes] = await Promise.all([
                 fetch('api/title'),
+                fetch('api/links'),
+                fetch('api/texts'),
             ]);
 
-            const titleJson = await titleRes.json()
-            const title = titleJson.title
+            const title = await titleRes.text();
+            const linklist = await linksRes.json();
+            const textlist = await textsRes.json();
 
-            document.getElementById("title").innerHTML = title
-            document.getElementById("titleinput").value = title
+            document.getElementById("title").innerHTML = title;
+            document.getElementById("titleinput").value = title;
 
-
-            const listElement = document.getElementById("link-list")
-
-            const textElement = document.getElementById("texti")
-
+            const listElement = document.getElementById("link-list");
+            const textElement = document.getElementById("texti");
 
             linklist.forEach(linkJson => {
-
-                const aElement = document.createElement("a")
-                aElement.innerHTML = linkJson.name
-                aElement.href = linkJson.href
-
-                listElement.appendChild(aElement)
-
-
+                const aElement = document.createElement("a");
+                aElement.innerHTML = linkJson.name;
+                aElement.href = linkJson.href;
+                listElement.appendChild(aElement);
             });
 
             textlist.forEach(textJson => {
-
-                const hElement = document.createElement("h1")
-                const pElement = document.createElement("p")
-
-
-                hElement.innerHTML = textJson.title
-                pElement.innerHTML = textJson.text
-
-                textElement.appendChild(hElement)
-                textElement.appendChild(pElement)
+                const hElement = document.createElement("h1");
+                const pElement = document.createElement("p");
+                hElement.innerHTML = textJson.title;
+                pElement.innerHTML = textJson.text;
+                textElement.appendChild(hElement);
+                textElement.appendChild(pElement);
             });
-
-
-
         }
+
         addEventListener("load", handleload)
 
 
@@ -146,16 +135,11 @@
 
                 listElement.appendChild(aElement)
 
-                const linkJson = {
-                    href: linkfile.value,
-                    name: linknimi.value,
-
-                }
-
-                linklist.push(linkJson)
-
-                localStorage.setItem("link-list", JSON.stringify(linklist))
-
+                await fetch('api/links', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: linknimi.value, href: linkfile.value }),
+                });
 
             }
 
@@ -192,17 +176,11 @@
 
                 textElement.appendChild(pElement)
 
-                const textJson = {
-                    title: texttitle.value,
-                    text: textarea.value,
-
-                }
-
-
-                textlist.push(textJson)
-
-                localStorage.setItem("texti", JSON.stringify(textlist))
-
+                await fetch('api/texts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: texttitle.value, text: textarea.value }),
+                });
             }
 
         }
